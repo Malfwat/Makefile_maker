@@ -207,20 +207,28 @@ rule()
 
 f()
 {
-	if [ -s Makefile ]; then 
-		return 
+	if [ -s Makefile ]; then
+		answer="ok"
+		echo in-there
+		while [ $answer != 'y' ]  && [ $answer != 'N' ]
+		do
+			echo -n "Do you want to remake your Makefile ?(y/N): "
+			read answer
+		done
+		if [ $answer = 'N' ]
+		then
+			return 
+		fi
 	fi
 
-	echo -n "make your choice (1:classic, 2:personalized.): "
+	echo -n "Make your choice (1:classic, 2:personalized.): "
 	read option
 	if [ $option -eq 1 ]; then 
 		classic
 	elif [ $option -eq 2 ]; then
 		personalized
 	fi
-	return 
-	echo $NAME
-
+	return
 }
 
 f
