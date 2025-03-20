@@ -97,6 +97,20 @@ classic()
 	return
 }
 
+is_dir()
+{
+	input=$1
+	len=${#input}
+	for (( i=0; i < len; i++ )); do
+		str=${input:$i:1}
+		if [ $((i+1)) -eq $len ] && [ $str = '/' ]
+		then
+			return 1
+		fi
+	done
+	return 0
+}
+
 personalized()
 {
 	touch Makefile		#Create Makefile
@@ -108,10 +122,25 @@ personalized()
 	echo "NAME	=	$name" >> Makefile
 	echo '' >> Makefile
 
-	echo -n 'Enter sources dir with "/": '	#Get souces dir
-	read src_dir
-	echo -n 'Enter includes dir with "/": '	#Get includes dir
-	read includes
+	local ret_val=0
+	while [ $ret_val -eq 0 ]
+	do
+		
+		echo -n 'Enter sources dir with "/": '	#Get souces dir
+		read src_dir
+		is_dir $src_dir
+		ret_val=$(echo $?)
+	done
+
+	ret_val=0
+	while [ $ret_val -eq 0 ]
+	do
+		
+		echo -n 'Enter includes dir with "/": '	#Get souces dir
+		read includes
+		is_dir $includes
+		ret_val=$(echo $?)
+	done
 
 	mkdir -p $src_dir $includes	#Create srcs and include directory if they don't exist
 
@@ -221,8 +250,6 @@ f()
 		personalized
 	fi
 	return 
-	echo -n "Enter executable name: "
-	read NAME
 	echo $NAME
 
 }
