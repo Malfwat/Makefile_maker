@@ -207,21 +207,20 @@ rule()
 
 f()
 {
-	if [ -s Makefile ]; then
+	if [ -s Makefile ]; then	#If we already have a Makefile
 		answer="ok"
-		echo in-there
-		while [ $answer != 'y' ]  && [ $answer != 'N' ]
+		while [ $answer != 'y' ]  && [ $answer != 'N' ]	#While not correctly answered
 		do
 			echo -n "Do you want to remake your Makefile ?(y/N): "
 			read answer
 		done
-		if [ $answer = 'N' ]
+		if [ $answer = 'N' ]	#If said no return 
 		then
 			return 
 		fi
 	fi
 
-	echo -n "Make your choice (1:classic, 2:personalized.): "
+	echo -n "Make your choice (1:classic, 2:personalized.): "	#Choose what kind of makefile
 	read option
 	if [ $option -eq 1 ]; then 
 		classic
