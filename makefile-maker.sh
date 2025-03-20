@@ -57,44 +57,10 @@ classic()
 	echo '' >> Makefile	#Append a new line
 
 
-	echo 'INCLUDE	=	includes' >> Makefile	#Create include variable
+	echo 'INCLUDE	=	includes/' >> Makefile	#Create include variable
 	echo '' >> Makefile	#Append a new line
 
-
-	echo 'all:	$(NAME)' >> Makefile	#Create all rule
-	echo '' >> Makefile	#Append a new line
-
-	echo '$(BUILD):' >> Makefile
-	echo '	@mkdir -p $@' >> Makefile
-	echo '' >> Makefile
-
-	echo '$(NAME):	$(BUILD) $(OBJ)' >> Makefile	#Create $(NAME) rule
-	echo '	$(CC) $(OBJ) -o $@' >> Makefile
-	echo '' >> Makefile	#Append a new line
-
-	echo '$(BUILD)%.o:	$(SRC_DIR)%.c Makefile' >> Makefile	#Create obj rule
-	echo '	$(CC) $(CFLAGS) -c $< -o $@ -I $(INCLUDES)' >> Makefile
-	echo '' >> Makefile	#Append a new line
-
-	
-	echo 'clean:' >> Makefile	#Create clean rule
-	echo '	rm -rf $(BUILD)' >> Makefile
-	echo '' >> Makefile	#Append a new line
-
-	echo 'fclean:	clean' >> Makefile	#Create fclean rule
-	echo 'rm -rf $(NAME)' >> Makefile
-	echo '' >> Makefile	#Append a new line
-
-	echo 're: fclean all' >> Makefile	#Create re rule
-	echo '' >> Makefile	#Append a new line
-
-	echo '.PHONY: re all fclean clean' >> Makefile	#Create .PHONY rule
-	echo '' >> Makefile	#Append a new line
-
-	echo '-include $(OBJ:.o=.d)' >> Makefile
-	echo '' >> Makefile
-
-	return
+	rule
 }
 
 is_dir()
@@ -197,8 +163,11 @@ personalized()
 
 	echo "INCLUDE	=	$include" >> Makefile	#Create include variable
 	echo '' >> Makefile	#Append a new line
+	rule
+}
 
-
+rule()
+{
 	echo 'all:	$(NAME)' >> Makefile	#Create all rule
 	echo '' >> Makefile	#Append a new line
 
