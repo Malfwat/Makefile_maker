@@ -4,7 +4,6 @@ get_src()
 {
 	#Start adding the sources to the Makefile
 
-	echo $1 $2
 	echo -n 'SRC	=' >> Makefile	#Create source variable
 	if [ "$2" = "c++" ]
 	then
