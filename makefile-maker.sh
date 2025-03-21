@@ -4,9 +4,15 @@ get_src()
 {
 	#Start adding the sources to the Makefile
 
+	echo $1 $2
 	echo -n 'SRC	=' >> Makefile	#Create source variable
-	SRC=$(cd srcs; find . -type f -not -name ".*")	#Taking all sources files
-
+	if [ "$2" = "c++" ]
+	then
+		SRC=$(cd $1; find . -type f -name *.cpp -not -name ".*")	#Taking all sources files
+	elif [ "$2" = "cc" ]
+	then
+		SRC=$(cd $1; find . -type f -name *.c -not -name ".*")	#Taking all sources files
+	fi
 
 	local total_files=$(echo $SRC| xargs -n 1 | wc -l)	#Get the nb of files
 
@@ -37,11 +43,10 @@ classic()
 	echo "NAME	=	$name" >> Makefile
 	echo '' >> Makefile
 
-	get_src
-	
-	
 	echo -n 'Enter compilator: '	#Get compilator
 	read compilator
+
+	get_src srcs $compilator
 
 	echo "CC	=	$compilator" >> Makefile	#Create cc variable
 	echo '' >> Makefile	#Append a new line
@@ -105,10 +110,10 @@ personalized()
 
 	mkdir -p $src_dir $includes	#Create srcs and include directory if they don't exist
 
-	get_src
-
 	echo -n 'Enter compilator: '	#Get compilator
 	read compilator
+
+	get_src $src_dir $compilator
 
 	echo "CC	=	$compilator" >> Makefile	#Create cc variable
 	echo '' >> Makefile	#Append a new line
