@@ -38,8 +38,12 @@ classic()
 	echo '' >> Makefile
 
 	get_src
+	
+	
+	echo -n 'Enter compilator: '	#Get compilator
+	read compilator
 
-	echo 'CC	=	cc' >> Makefile	#Create cc variable
+	echo "CC	=	$compilator" >> Makefile	#Create cc variable
 	echo '' >> Makefile	#Append a new line
 
 
@@ -47,7 +51,7 @@ classic()
 	echo '' >> Makefile	#Append a new line
 
 
-	echo 'INCLUDE	=	includes/' >> Makefile	#Create include variable
+	echo 'INCLUDES	=	includes/' >> Makefile	#Create include variable
 	echo '' >> Makefile	#Append a new line
 
 	echo "SRC_DIR	=	srcs/" >> Makefile #Create source dir variable
@@ -115,7 +119,7 @@ personalized()
 	echo "CFLAGS	=	$flags" >> Makefile	#Create cflags variable
 	echo '' >> Makefile	#Append a new line
 
-	echo "INCLUDE	=	$includes" >> Makefile	#Create include variable
+	echo "INCLUDES	=	$includes" >> Makefile	#Create include variable
 	echo '' >> Makefile	#Append a new line
 
 	echo "SRC_DIR	=	$src_dir" >> Makefile #Create source dir variable
@@ -129,7 +133,13 @@ rule()
 	echo 'BUILD	=	.build/' >> Makefile #Create build dir variable
 	echo '' >> Makefile	#Append a new line
 
-	echo 'OBJ	=	$(addprefix $(BUILD, $(SRC:.c=.o)))' >> Makefile #Create obj variable
+	if [ "$compilator" = 'c++' ]
+	then
+		echo 'OBJ	=	$(addprefix $(BUILD), $(SRC:.cpp=.o))' >> Makefile #Create obj variable
+	elif [ "$compilator" = 'cc' ]
+	then	
+		echo 'OBJ	=	$(addprefix $(BUILD), $(SRC:.c=.o))' >> Makefile #Create obj variable
+	fi
 	echo '' >> Makefile	#Append a new line
 	
 	echo 'DEPS	=	$(OBJ:.o=.d)' >> Makefile #Create depa variable
@@ -145,7 +155,13 @@ rule()
 	echo '	$(CC) $(OBJ) -o $@' >> Makefile
 	echo '' >> Makefile	#Append a new line
 
-	echo '$(BUILD)%.o:	$(SRC_DIR)%.c Makefile' >> Makefile	#Create obj rule
+	if [ "$compilator" = 'c++' ]
+	then
+		echo '$(BUILD)%.o:	$(SRC_DIR)%.cpp Makefile' >> Makefile	#Create obj rule
+	elif [ "$compilator" = 'cc' ]
+	then
+		echo '$(BUILD)%.o:	$(SRC_DIR)%.c Makefile' >> Makefile	#Create obj rule
+	fi
 	echo '	$(CC) $(CFLAGS) -c $< -o $@ -I $(INCLUDES)' >> Makefile
 	echo '' >> Makefile	#Append a new line
 
