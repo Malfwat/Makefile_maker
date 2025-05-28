@@ -151,11 +151,7 @@ rule()
 	echo 'all:	$(NAME)' >> Makefile	#Create all rule
 	echo '' >> Makefile	#Append a new line
 
-	echo '$(BUILD):' >> Makefile
-	echo '	@mkdir -p $@' >> Makefile
-	echo '' >> Makefile
-
-	echo '$(NAME):	$(BUILD) $(OBJ)' >> Makefile	#Create $(NAME) rule
+	echo '$(NAME):	$(OBJ)' >> Makefile	#Create $(NAME) rule
 	echo '	$(CC) $(OBJ) -o $@' >> Makefile
 	echo '' >> Makefile	#Append a new line
 
@@ -166,6 +162,7 @@ rule()
 	then
 		echo '$(BUILD)%.o:	$(SRC_DIR)%.c Makefile' >> Makefile	#Create obj rule
 	fi
+	echo '	@mkdir -p $(dir $@)' >> Makefile
 	echo '	$(CC) $(CFLAGS) -c $< -o $@ -I $(INCLUDES)' >> Makefile
 	echo '' >> Makefile	#Append a new line
 
